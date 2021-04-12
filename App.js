@@ -15,6 +15,7 @@ import {
   } from "react-native";
   import { ScaledSheet } from "react-native-size-matters";
   import { WebView } from "react-native-webview";
+  import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
  const window = Dimensions.get("window");
  const screen = Dimensions.get("screen");
@@ -24,11 +25,13 @@ import {
    const [dimensions, setDimensions] = useState({ window, screen });
    const [mode, setMode] = useState("portrait");
    const [modalVisible, setModalVisible] = useState(false);
+   const [playing, setPlaying] = useState(false);
 
    const image = {
     uri:
       "https://www.html.am/templates/downloads/bryantsmith/nightbeach/images/main.jpg",
   };
+
   const header = {
     uri:
       "https://www.html.am/templates/downloads/bryantsmith/nightbeach/images/menu.png",
@@ -43,7 +46,8 @@ import {
       setMode("portrait") 
      
     }
-    console.log(mode)
+    console.log(mode, playing)
+    setPlaying(false)
    };
 
  const onChange = ({ window, screen }) => {
@@ -64,8 +68,9 @@ import {
     
     <SafeAreaView style={styles.container}>
     
+  
     <Modal
-    animationType="slide"
+    animationType="fade"
     transparent={false}
     visible={modalVisible}
     supportedOrientations={['landscape']} 
@@ -91,10 +96,12 @@ import {
     </View>
   </Modal>
 
+
     {mode === "portrait" ? <View style={styles.imagecontainer}>
-    <WebView
-    source={{html: '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/cqyziA30whE" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>'}}
- />
+    <ImageBackground source={image} style={styles.image}>
+    <Icon name="play" color="white" size={100} onPress={() => setModalVisible(true)} />
+    </ImageBackground>
+  
     </View> : null}
     <View style={mode === "portrait" ? styles.imagecontainer2 : styles.imagecontainer3}>
       <ImageBackground source={header} style={styles.image2}>
@@ -251,14 +258,6 @@ import {
         flexDirection: "column",
         height: "100%",
       },
-      image: {
-        width: "100%",
-        marginLeft: "5@s",
-        marginRight: "5@s",
-        height: "100%",
-        resizeMode: "stretch",
-                 
-      },
 
       // imagecontainer: {
       //   justifyContent: "flex-start",
@@ -276,7 +275,17 @@ import {
         backgroundColor: "green",
         marginTop: 0,
       },
-      
+      image: {
+        width: "100%",
+        
+        height: "100%",
+        resizeMode: "stretch",
+        justifyContent: "center",
+        alignItems: "center"
+                 
+      },
+
+
       image2: {
         width: "100%",
         marginLeft: "5@s",
@@ -316,13 +325,6 @@ import {
         marginLeft: "15@s",
         fontSize: "14@s",
       },
-      toptext: {
-        color: "white",
-        fontWeight: "bold",
-        marginLeft: "45%",
-        marginTop: "10%",
-        fontSize: "12@s",
-      },
     
       heading2: {
         color: "black",
@@ -334,7 +336,6 @@ import {
       heading: {
         color: "black",
         fontWeight: "bold",
-    
         marginBottom: "5@s",
         fontSize: "18@s",
       },
@@ -342,12 +343,6 @@ import {
         color: "black",
         fontSize: "15@s",
       },
-    
-      // linkcenter: {
-      //   marginVertical: "4.5@s",
-      //   height: "100%",
-      //   justifyContent: "center",
-      // },
     
       linkcenter2: {
         height: "100%",
@@ -364,15 +359,25 @@ import {
       button: {
         borderRadius: 20,
         padding: 10,
-        elevation: 2
+        elevation: 2,
+        marginBottom:20,
       },
+
       centeredView: {
         flexDirection: "column",
         flex: 1,
         width: "100%",
+        backgroundColor: "black",
+        marginTop: -8,
+        alignItems: "center",
+        height: "200%",
       },
+    
       video2: {
         flex:1,
+        width: "105%",
+        backgroundColor: "black",
+
       },
 
  });
